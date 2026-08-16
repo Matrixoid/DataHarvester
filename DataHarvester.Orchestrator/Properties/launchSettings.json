@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DataHarvester.Orchestrator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
