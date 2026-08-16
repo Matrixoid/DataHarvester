@@ -20,7 +20,8 @@ namespace DataHarvester.Orchestrator.Features.Jobs.CreateJob
 
                 return Results.Ok(new { JobId = jobId });
             })
-            .WithName("Create Job");
+            .WithName("Create Job")
+            .WithSummary("Создаёт новую задачу на сбор данных с интернет ресурса.");
 
             app.MapOpenApi();
         }

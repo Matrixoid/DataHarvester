@@ -1,6 +1,5 @@
 ﻿using DataHarvester.Orchestrator.Domain.Jobs;
 using DataHarvester.Orchestrator.Domain.Repository;
-using DataHarvester.Orchestrator.Infrastructure.Repositories;
 using MediatR;
 
 namespace DataHarvester.Orchestrator.Features.Jobs.CreateJob
