@@ -1,3 +1,5 @@
 DataHarvester.Orchestrator/bin/
 DataHarvester.Orchestrator/obj/
 .vs/
+DataHarvester.Worker/bin/
+DataHarvester.Worker/obj/

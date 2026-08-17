@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="DataHarvester.Orchestrator/DataHarvester.Orchestrator.csproj" />
+  <Project Path="DataHarvester.Worker/DataHarvester.Worker.csproj" Id="0c51cd91-0ee0-4787-ba11-00b477d2422c" />
 </Solution>
