@@ -3,3 +3,6 @@ DataHarvester.Orchestrator/obj/
 .vs/
 DataHarvester.Worker/bin/
 DataHarvester.Worker/obj/
+DataHarvester.Contracts/bin/
+DataHarvester.Contracts/obj/
+DataHarvester.slnLaunch.user

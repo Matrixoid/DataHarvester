@@ -2,6 +2,7 @@
 using DataHarvester.Orchestrator.Features.Jobs.CreateJob;
 using DataHarvester.Orchestrator.Features.Jobs.GetJobStatus;
 using DataHarvester.Orchestrator.Infrastructure.Repositories;
+using MassTransit;
 
 namespace DataHarvester.Orchestrator
 {
@@ -25,6 +26,22 @@ namespace DataHarvester.Orchestrator
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    var host = builder.Configuration["RabbitMQ:Host"];
+                    var username = builder.Configuration["RabbitMQ:Username"];
+                    var password = builder.Configuration["RabbitMQ:Password"];
+
+                    cfg.Host(host, "/", h =>
+                    {
+                        h.Username(username);
+                        h.Password(password);
+                    });
+                });
+            });
 
             var app = builder.Build();
 
