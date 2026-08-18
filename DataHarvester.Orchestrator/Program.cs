@@ -1,8 +1,10 @@
 ﻿using DataHarvester.Orchestrator.Domain.Repository;
 using DataHarvester.Orchestrator.Features.Jobs.CreateJob;
 using DataHarvester.Orchestrator.Features.Jobs.GetJobStatus;
+using DataHarvester.Orchestrator.Infrastructure;
 using DataHarvester.Orchestrator.Infrastructure.Repositories;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataHarvester.Orchestrator
 {
@@ -21,8 +23,13 @@ namespace DataHarvester.Orchestrator
                 options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
             });
 
+            builder.Services.AddDbContext<HarvesterDbContext>(options =>
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-            builder.Services.AddSingleton<IHarvestingJobRepository, HarvestingJobRepository>();
+            builder.Services.AddScoped<IHarvestingJobRepository, HarvestingJobRepository>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -1,22 +1,39 @@
 ﻿using DataHarvester.Orchestrator.Domain.Jobs;
 using DataHarvester.Orchestrator.Domain.Repository;
-using System.Collections.Concurrent;
 
 namespace DataHarvester.Orchestrator.Infrastructure.Repositories
 {
+    /// <summary>
+    /// Реализация репозитория для работы с задачами сбора данных.
+    /// </summary>
     public class HarvestingJobRepository : IHarvestingJobRepository
     {
-        private readonly ConcurrentDictionary<Guid, HarvestingJob> _jobs = new();
+        private readonly HarvesterDbContext _dbContext;
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса заданным значением <paramref name="dbContext"/>.
+        /// </summary>
+        /// <param name="dbContext">Контекст базы данных.</param>
+        public HarvestingJobRepository(HarvesterDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         public void Add(HarvestingJob job)
         {
-            _jobs.TryAdd(job.Id, job);
+            _dbContext.Jobs.Add(job);
+            _dbContext.SaveChanges();
         }
 
         public HarvestingJob? GetById(Guid id)
         {
-            _jobs.TryGetValue(id, out var job);
-            return job;
+            return _dbContext.Jobs.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void Update(HarvestingJob job)
+        {
+            _dbContext.Jobs.Update(job);
+            _dbContext.SaveChanges();
         }
     }
 }
