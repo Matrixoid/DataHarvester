@@ -36,6 +36,7 @@ namespace DataHarvester.Orchestrator
 
             builder.Services.AddMassTransit(x =>
             {
+                x.AddConsumer<HarvesterOrchestratorConsumer>();
                 x.UsingRabbitMq((context, cfg) =>
                 {
                     var host = builder.Configuration["RabbitMQ:Host"];
@@ -46,6 +47,11 @@ namespace DataHarvester.Orchestrator
                     {
                         h.Username(username);
                         h.Password(password);
+                    });
+
+                    cfg.ReceiveEndpoint("completed-job-queue", e =>
+                    {
+                        e.ConfigureConsumer<HarvesterOrchestratorConsumer>(context);
                     });
                 });
             });

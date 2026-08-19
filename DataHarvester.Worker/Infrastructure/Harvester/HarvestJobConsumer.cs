@@ -38,10 +38,13 @@ namespace DataHarvester.Worker.Infrastructure.Harvester
             {
                 var harvestData = await _webNavigator.ExtractDataAsync(message.Url, context.CancellationToken);
                 _logger.LogInformation("Данные успешно собраны.");
+                await context.Publish(new ReportMessage(message.JobId, true, harvestData.Title, harvestData.Links.Count));
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "В результате сбора данных случилась ошибка.");
+                await context.Publish(new ReportMessage(message.JobId, false, ErrorMessage: ex.Message));
             }
         }
     }

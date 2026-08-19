@@ -20,6 +20,16 @@ namespace DataHarvester.Orchestrator.Domain.Jobs
         public JobStatus Status { get; private set; }
 
         /// <summary>
+        /// Название обрабатываемой страницы
+        /// </summary>
+        public string? Title { get; private set; }
+
+        /// <summary>
+        /// Число ссылок, которые были собраны на обрабатываемой странице.
+        /// </summary>
+        public int LinksCount { get; private set; }
+
+        /// <summary>
         /// Инициализирует новый экземпляр класса, задавая ему id, url обрабатываемой страницы и статус задачи.
         /// </summary>
         /// <param name="url">Url обрабатываемой страницы</param>
@@ -32,6 +42,11 @@ namespace DataHarvester.Orchestrator.Domain.Jobs
             Url = url;
             Status = JobStatus.Created;
         }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса.
+        /// </summary>
+        public HarvestingJob() { }
 
         /// <summary>
         /// Переводит задачу в очередь на исполнение.
@@ -81,9 +96,11 @@ namespace DataHarvester.Orchestrator.Domain.Jobs
         /// <summary>
         /// Успешно завершает выполнение задачи.
         /// </summary>
-        public void Complete()
+        public void Complete(string title, int linksCount)
         {
             Status = JobStatus.Completed;
+            Title = title;
+            LinksCount = linksCount;
         }
 
         /// <summary>

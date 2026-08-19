@@ -20,7 +20,7 @@ namespace DataHarvester.Orchestrator.Features.Jobs.CreateJob
         /// Инициализирует новый экземпляр объекта с заданным параметром <paramref name="repository"/> и <paramref name="publishEndpoint"/>.
         /// </summary>
         /// <param name="repository">Хранилище задач.</param>
-        /// /// <param name="publishEndpoint">Интерфейс MassTransit для публикации сообщений.</param>
+        /// <param name="publishEndpoint">Интерфейс MassTransit для публикации сообщений.</param>
         public CreateJobCommandHandler(IHarvestingJobRepository repository, IPublishEndpoint publishEndpoint)
         {
             _repository = repository;

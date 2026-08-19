@@ -19,17 +19,20 @@ namespace DataHarvester.Orchestrator.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        /// <inheritdoc/>
         public void Add(HarvestingJob job)
         {
             _dbContext.Jobs.Add(job);
             _dbContext.SaveChanges();
         }
 
+        /// <inheritdoc/>
         public HarvestingJob? GetById(Guid id)
         {
             return _dbContext.Jobs.FirstOrDefault(x => x.Id == id);
         }
 
+        /// <inheritdoc/>
         public void Update(HarvestingJob job)
         {
             _dbContext.Jobs.Update(job);
