@@ -6,3 +6,4 @@ DataHarvester.Worker/obj/
 DataHarvester.Contracts/bin/
 DataHarvester.Contracts/obj/
 DataHarvester.slnLaunch.user
+.env
