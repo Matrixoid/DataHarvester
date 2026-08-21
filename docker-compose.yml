@@ -24,6 +24,15 @@ services:
       timeout: 3s
       retries: 5
 
+  seq:
+    image: datalust/seq:latest
+    container_name: harvester_seq
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=${SEQ_ADMIN_PASSWORD}
+    ports:
+      - "5341:80"
+
   orchestrator:
     build:
       context: .
@@ -37,6 +46,7 @@ services:
       - RabbitMQ__Host=rabbitmq
       - RabbitMQ__Username=${RMQ_USER}
       - RabbitMQ__Password=${RMQ_PASSWORD}
+      - Seq__ServerUrl=http://seq:80
     depends_on:
       postgres:
         condition: service_healthy
@@ -52,6 +62,7 @@ services:
       - RabbitMQ__Host=rabbitmq
       - RabbitMQ__Username=${RMQ_USER}
       - RabbitMQ__Password=${RMQ_PASSWORD}
+      - Seq__ServerUrl=http://seq:80
     depends_on:
       rabbitmq:
         condition: service_started

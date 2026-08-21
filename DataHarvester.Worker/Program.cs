@@ -1,6 +1,7 @@
 using DataHarvester.Worker.Core.Interfaces;
 using DataHarvester.Worker.Infrastructure.Harvester;
 using MassTransit;
+using Serilog;
 
 namespace DataHarvester.Worker
 {
@@ -31,6 +32,17 @@ namespace DataHarvester.Worker
                         e.ConfigureConsumer<HarvestJobConsumer>(context);
                     });
                 });
+            });
+
+            var seqUrl = builder.Configuration["Seq:ServerUrl"];
+            builder.Services.AddSerilog(loggerConfig =>
+            {
+                loggerConfig
+                    .ReadFrom.Configuration(builder.Configuration)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithProperty("Application", "Worker")
+                    .WriteTo.Console()
+                    .WriteTo.Seq(seqUrl);
             });
 
             var host = builder.Build();

@@ -5,6 +5,7 @@ using DataHarvester.Orchestrator.Infrastructure;
 using DataHarvester.Orchestrator.Infrastructure.Repositories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace DataHarvester.Orchestrator
 {
@@ -54,6 +55,17 @@ namespace DataHarvester.Orchestrator
                         e.ConfigureConsumer<HarvesterOrchestratorConsumer>(context);
                     });
                 });
+            });
+
+            var seqUrl = builder.Configuration["Seq:ServerUrl"];
+            builder.Host.UseSerilog((context, loggerConfig) =>
+            {
+                loggerConfig
+                    .ReadFrom.Configuration(context.Configuration)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithProperty("Application", "Orchestrator")
+                    .WriteTo.Console()
+                    .WriteTo.Seq(seqUrl);
             });
 
             var app = builder.Build();
